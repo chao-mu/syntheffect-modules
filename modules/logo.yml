@@ -1,0 +1,8 @@
+out:
+  accepts:
+  - syncH
+  - syncV
+  frag: Logo
+  outputs:
+  - value
+  vert: Passthrough

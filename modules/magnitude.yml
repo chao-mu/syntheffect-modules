@@ -1,0 +1,15 @@
+out:
+  accepts:
+  - syncH
+  - syncV
+  - x1
+  - x2
+  - x3
+  - y1
+  - y2
+  - y3
+  frag: Magnitude
+  outputs:
+  - value
+  - value_diff
+  vert: Passthrough

@@ -1,0 +1,14 @@
+out:
+  accepts:
+  - syncH
+  - syncV
+  - red
+  - green
+  - blue
+  - negate
+  frag: EdgeDetector
+  outputs:
+  - red
+  - green
+  - blue
+  vert: Passthrough

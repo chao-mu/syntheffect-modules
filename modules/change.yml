@@ -1,0 +1,15 @@
+out:
+  accepts:
+  - syncH
+  - syncV
+  - in1
+  - in2
+  - in3
+  - new
+  frag: Change
+  outputs:
+  - value
+  - in1_
+  - in2_
+  - in3_
+  vert: Passthrough

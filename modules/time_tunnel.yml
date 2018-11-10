@@ -1,0 +1,11 @@
+out:
+  accepts:
+  - syncH
+  - syncV
+  - speed
+  - travelOffset
+  - seed
+  frag: TimeTunnel
+  outputs:
+  - value
+  vert: Passthrough

@@ -1,0 +1,11 @@
+out:
+  accepts:
+  - syncH
+  - syncV
+  - speed
+  - shapes
+  - sharpness
+  frag: Blobscope
+  outputs:
+  - value
+  vert: Passthrough

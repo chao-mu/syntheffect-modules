@@ -1,0 +1,16 @@
+out:
+  accepts:
+  - syncH
+  - syncV
+  - red
+  - green
+  - blue
+  frag: RGBMapper
+  outputs:
+  - luma
+  - cb
+  - cr
+  - hue
+  - saturation
+  - value
+  vert: Passthrough

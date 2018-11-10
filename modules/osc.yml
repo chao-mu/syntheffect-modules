@@ -1,0 +1,16 @@
+out:
+  accepts:
+  - syncH
+  - syncV
+  - freq
+  - freqMod
+  - amplitude
+  - shift
+  - vertical
+  - phase
+  frag: Osc
+  outputs:
+  - sine
+  - sawtooth
+  - arcsine
+  vert: Passthrough
