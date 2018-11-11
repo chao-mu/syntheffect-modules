@@ -1,6 +1,9 @@
 # syntheffect-modules
 
-This repository hosts modules and shaders for use with SynthEffect
+This repository is a proof of concept to explore the ideal of hosting modules and shaders for use with SynthEffect outside 
+the SynthEffect repository. 
+
+See https://syntheffect.com/
 
 
 ## Getting started
