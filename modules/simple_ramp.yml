@@ -1,9 +1,0 @@
-out:
-  accepts:
-  - syncH
-  - syncV
-  frag: SimpleRamp
-  outputs:
-  - h
-  - v
-  vert: Passthrough

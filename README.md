@@ -1,10 +1,8 @@
 # syntheffect-modules
 
-This repository is a proof of concept to explore the ideal of hosting modules and shaders for use with SynthEffect outside 
-the SynthEffect repository. 
+This repository contains modules for SynthEffect, a video synthesizer builder.
 
 See https://syntheffect.com/
-
 
 ## Getting started
 
@@ -14,6 +12,7 @@ See https://syntheffect.com/
 
 ## Layout
 
-* shaders/core - core shaders part of syntheffect
-* shaders/include - common includes for shaders
-* shaders/github.com/* - github usersnames, underwhich submodules of that user's repositories that contain shaders
+* core/ - core modules/shaders
+* include/ - includes for our shaders
+* update.sh - update script
+* examples/ - examples of modules
