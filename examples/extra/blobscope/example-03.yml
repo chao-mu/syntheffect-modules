@@ -1,0 +1,19 @@
+##
+# A kaleidoscope of blobs with the red value delayed
+##
+blobs:
+    module: extra/blobscope
+
+tail:
+    module: core/feedback
+    inputs:
+        in1: blobs.value
+    
+out:
+    module: core/compositor
+    inputs:
+        red: tail.out1
+        green: blobs.value
+        blue: blobs.value
+    
+    

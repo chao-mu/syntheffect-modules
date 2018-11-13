@@ -1,0 +1,21 @@
+##
+# This example connects the brightness of each pixel in the webcam to the module ADC (analog digital converter),
+# which in turn provides 3 outputs that act as bits describing the value numerically.
+# 
+# adc provides the outputs out1, out2, and out3 so it can be used as an "out" module.
+##
+
+external:
+    module: core/webcam
+
+external_decoded:
+    module: core/rgb_mapper
+    inputs:
+        red: external.red
+        green: external.green
+        blue: external.blue
+
+out:
+    module: core/adc
+    inputs:
+        value: external_decoded.luma

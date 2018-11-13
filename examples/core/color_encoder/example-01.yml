@@ -1,0 +1,23 @@
+##
+# Color encoder lets you tweak the colors of its input. This can be used to give colors to black and white
+##
+
+external:
+    module: core/webcam
+
+external_decoded:
+    module: core/rgb_mapper
+    inputs:
+        red: external.red
+        green: external.green
+        blue: external.blue
+
+out:
+    module: core/color_encoder
+    inputs:
+        red: external_decoded.luma
+        redInvert: 0.2
+        redBias: 0.2
+        green: external_decoded.luma
+        greenInvert: 0.8
+        blue: external_decoded.luma

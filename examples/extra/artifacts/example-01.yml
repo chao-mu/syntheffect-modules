@@ -1,0 +1,19 @@
+##
+# This example adds analog chroma/luma bleeding artifacts. For the purpose of example, we've added a fair amount.
+# as to not be subtle
+# 
+# My hair was purple before this shot.
+# 
+# This module provides the outputs red, green, and blue so it can be used as an "out" module.
+##
+
+external:
+    module: core/webcam
+
+out:
+    module: extra/artifacts
+    inputs:
+        blood: 10
+        red: external.red
+        green: external.green
+        blue: external.blue

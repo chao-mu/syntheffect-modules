@@ -6,13 +6,16 @@ See https://syntheffect.com/
 
 ## Getting started
 
+Fork this repository! That we if you make additions, you can create pull requests.
+
 ```
 ./update.sh
 ```
 
 ## Layout
 
-* core/ - core modules/shaders
+* core/ - modules considered fundemental
 * include/ - includes for our shaders
 * update.sh - update script
 * examples/ - examples of modules
+* extra/ - Nice to have modules. Put your own modules here!

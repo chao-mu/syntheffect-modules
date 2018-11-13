@@ -1,0 +1,21 @@
+##
+# Display only the changes from one frame to the next. Gets choppy if two consecutive frames
+# have no changes. This is why we pass webcam's frame_new to the "new" input.
+##
+external:
+    module: core/webcam
+
+change:
+    module: core/change
+    inputs:
+        in1: external.red
+        in2: external.green
+        in3: external.blue
+        new: external.frame_new
+
+out:
+    module: core/compositor
+    inputs:
+        red: change.value
+        green: change.value
+        blue: change.value

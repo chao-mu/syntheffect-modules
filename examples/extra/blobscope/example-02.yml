@@ -1,0 +1,27 @@
+##
+# Use the blobs to key a compositor
+##
+external:
+    module: core/webcam
+
+# So we have something cool to key to
+edges:
+    module: core/edge_detector
+    inputs:
+        red: external.red
+        green: external.green
+        blue: external.blue
+
+blobs:
+    module: extra/blobscope
+    
+out:
+    module: core/compositor
+    inputs:
+        key: blobs.value
+        red: external.red
+        green: external.green
+        blue: external.blue
+        red2: edges.red
+        green2: edges.green
+        blue2: edges.blue
