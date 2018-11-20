@@ -1,0 +1,23 @@
+##
+# Move around the center of the zoom
+##
+
+external:
+    module: core/webcam
+
+osc1:
+    module: core/osc
+    inputs:
+        phase: global.time
+        freq: 1
+    
+out:
+    module: extra/mirror_feedback
+    inputs:
+        centerX: osc1.sine
+        centerX_shift: -0.5
+        centerY: osc1.arcsine
+        centerY_shift: -0.5
+        in1: external.red
+        in2: external.green
+        in3: external.blue

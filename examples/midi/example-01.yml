@@ -1,0 +1,60 @@
+global:
+    module: "core/global"
+
+midi:
+    module: "core/midi"
+    device: "icon_icontrols"
+
+external:
+    module: "core/webcam"
+
+edge:
+    module: "core/edge_detector"
+    inputs:
+        red: "external.red"
+        green: "external.green"
+        blue: "external.blue"
+
+edge_composited:
+    module: "core/compositor"
+    inputs:
+        key: "midi.f6"
+        keyMixMode: 1
+        red: "external.red"
+        green: "external.green"
+        blue: "external.blue"
+        red2: "edge.red"
+        green2: "edge.green"
+        blue2: "edge.blue"
+
+stage2:
+    module: "extra/warpedo"
+    inputs:
+        in1: "edge_composited.red"
+        in2: "edge_composited.green"
+        in3: "edge_composited.blue"
+        amountX: "midi.f4"
+        amountY: "midi.f5"
+
+stage3:
+    module: "extra/wind"
+    inputs:
+        in1: "stage2.out1"
+        in2: "stage2.out2"
+        in3: "stage2.out3"
+        amount: "midi.f7"
+
+out:
+    module: "core/color_encoder"
+    inputs:
+        red: "stage3.out1"
+        redInvert: "midi.f1"
+        redBias: "midi.e1"
+        
+        green: "stage3.out2"
+        greenBias: "midi.e2"
+        greenInvert: "midi.f2"
+        
+        blue: "stage3.out3"
+        blueBias: "midi.e3"
+        blueInvert: "midi.f3"

@@ -1,0 +1,22 @@
+##
+# Zoom feedback at a factor corresponding to that regions luminacity
+##
+
+external:
+    module: core/webcam
+    
+external_decoded:
+    module: core/rgb_mapper
+    inputs:
+        red: external.red
+        green: external.green
+        blue: external.blue
+    
+out:
+    module: extra/mirror_feedback
+    inputs:
+        # Lower value, more zoom frames
+        factor: external_decoded.luma
+        in1: external.red
+        in2: external.green
+        in3: external.blue

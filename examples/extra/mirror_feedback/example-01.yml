@@ -1,0 +1,15 @@
+##
+# This is an attempt to simulate a mirror being held up to a camera.
+##
+
+external:
+    module: core/webcam
+    
+out:
+    module: extra/mirror_feedback
+    inputs:
+        # Lower value, more zoom frames
+        factor: 0.1
+        in1: external.red
+        in2: external.green
+        in3: external.blue

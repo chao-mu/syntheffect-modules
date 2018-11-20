@@ -115,6 +115,9 @@ float input_nosync_syncH(vec2 coords);
     } \
     vec3 last_output_ ## name() { \
         return vec3(last_output_ ## first(), last_output_ ## second(), last_output_ ## third()); \
+    } \
+    vec3 last_output_ ## name(vec2 coords) { \
+        return vec3(last_output_ ## first(coords), last_output_ ## second(coords), last_output_ ## third(coords)); \
     }
 
 #define DEFINE_OUTPUT_1(name, desc) _DEFINE_OUTPUT_FIRST(0, 0, name, desc)
