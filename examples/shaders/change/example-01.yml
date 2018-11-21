@@ -6,7 +6,7 @@ external:
     module: builtin/webcam
 
 change:
-    module: frag/change
+    module: shaders/change
     inputs:
         in1: external.red
         in2: external.green
@@ -14,7 +14,7 @@ change:
         new: external.frame_new
 
 out:
-    module: frag/compositor
+    module: shaders/compositor
     inputs:
         red: change.value
         green: change.value

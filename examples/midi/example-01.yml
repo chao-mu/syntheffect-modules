@@ -1,22 +1,21 @@
 global:
-    module: "core/global"
+    module: "builtin/global"
 
 midi:
-    module: "core/midi"
-    device: "icon_icontrols"
+    module: "midi/icon_icontrols"
 
 external:
-    module: "core/webcam"
+    module: "builtin/webcam"
 
 edge:
-    module: "core/edge_detector"
+    module: "shaders/edge_detector"
     inputs:
         red: "external.red"
         green: "external.green"
         blue: "external.blue"
 
 edge_composited:
-    module: "core/compositor"
+    module: "shaders/compositor"
     inputs:
         key: "midi.f6"
         keyMixMode: 1
@@ -28,7 +27,7 @@ edge_composited:
         blue2: "edge.blue"
 
 stage2:
-    module: "extra/warpedo"
+    module: "shaders/warpedo"
     inputs:
         in1: "edge_composited.red"
         in2: "edge_composited.green"
@@ -37,7 +36,7 @@ stage2:
         amountY: "midi.f5"
 
 stage3:
-    module: "extra/wind"
+    module: "shaders/wind"
     inputs:
         in1: "stage2.out1"
         in2: "stage2.out2"
@@ -45,7 +44,7 @@ stage3:
         amount: "midi.f7"
 
 out:
-    module: "core/color_encoder"
+    module: "shaders/color_encoder"
     inputs:
         red: "stage3.out1"
         redInvert: "midi.f1"
