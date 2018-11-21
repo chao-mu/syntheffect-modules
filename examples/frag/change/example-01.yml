@@ -3,10 +3,10 @@
 # have no changes. This is why we pass webcam's frame_new to the "new" input.
 ##
 external:
-    module: core/webcam
+    module: builtin/webcam
 
 change:
-    module: core/change
+    module: frag/change
     inputs:
         in1: external.red
         in2: external.green
@@ -14,7 +14,7 @@ change:
         new: external.frame_new
 
 out:
-    module: core/compositor
+    module: frag/compositor
     inputs:
         red: change.value
         green: change.value

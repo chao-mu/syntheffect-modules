@@ -6,16 +6,16 @@
 ##
 
 external:
-    module: core/webcam
+    module: builtin/webcam
 
 external_decoded:
-    module: core/rgb_mapper
+    module: frag/rgb_mapper
     inputs:
         red: external.red
         green: external.green
         blue: external.blue
 
 out:
-    module: core/adc
+    module: frag/adc
     inputs:
         value: external_decoded.luma

@@ -8,13 +8,13 @@
 ##
 
 external:
-    module: core/webcam
+    module: builtin/webcam
 
 ramp:
-    module: core/ramp
+    module: frag/ramp
 
 out:
-    module: core/color_encoder
+    module: frag/color_encoder
     inputs:
         syncH: global.time
         syncH_multiplier: 10

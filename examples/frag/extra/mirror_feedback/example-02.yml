@@ -3,17 +3,17 @@
 ##
 
 external:
-    module: core/webcam
+    module: builtin/webcam
     
 external_decoded:
-    module: core/rgb_mapper
+    module: frag/rgb_mapper
     inputs:
         red: external.red
         green: external.green
         blue: external.blue
     
 out:
-    module: extra/mirror_feedback
+    module: frag/mirror_feedback
     inputs:
         # Lower value, more zoom frames
         factor: external_decoded.luma

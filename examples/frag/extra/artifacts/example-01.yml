@@ -8,10 +8,10 @@
 ##
 
 external:
-    module: core/webcam
+    module: builtin/webcam
 
 out:
-    module: extra/artifacts
+    module: frag/artifacts
     inputs:
         blood: 10
         red: external.red
