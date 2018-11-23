@@ -6,13 +6,13 @@ external:
     module: builtin/webcam
 
 osc1:
-    module: frag/osc
+    module: shaders/osc
     inputs:
         phase: global.time
         freq: 1
-    
+
 out:
-    module: frag/mirror_feedback
+    module: shaders/mirror_feedback
     inputs:
         centerX: osc1.sine
         centerX_shift: -0.5

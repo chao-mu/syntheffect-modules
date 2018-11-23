@@ -1,5 +1,9 @@
 #pragma include "../include/module.glsl"
 
+// @name Change
+// @desc Measure the change between each frame.
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(in1, 0, DESC("first component of vector"))
 DEFINE_INPUT(in2, 0, DESC("second component of vector"))
 DEFINE_INPUT(in3, 0, DESC("third component of vector"))

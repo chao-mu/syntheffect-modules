@@ -4,9 +4,9 @@
 
 external:
     module: builtin/webcam
-    
+
 out:
-    module: frag/mirror_feedback
+    module: shaders/mirror_feedback
     inputs:
         # Lower value, more zoom frames
         factor: 0.1

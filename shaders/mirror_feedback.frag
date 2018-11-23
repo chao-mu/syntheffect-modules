@@ -1,5 +1,9 @@
 #pragma include "../include/module.glsl"
 
+// @name Mirror Feedback
+// @desc Feedback simulating holding a mirror up to the camera, sorta
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(in1, 0., DESC("input channel 1"))
 DEFINE_INPUT(in2, 0., DESC("input channel 2"))
 DEFINE_INPUT(in3, 0., DESC("input channel 3"))

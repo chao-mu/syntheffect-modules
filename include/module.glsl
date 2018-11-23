@@ -5,7 +5,6 @@
 #define HALF_PI 1.5707963
 #define SQRT_2 1.41421356
 
-
 #define DESC(s) #s
 
 #define NO_DEFAULT 0.0

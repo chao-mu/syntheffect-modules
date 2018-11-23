@@ -1,5 +1,9 @@
 #pragma include "../include/module.glsl"
 
+// @name Compositor
+// @desc Mix two sets of 3 channels according to a key channel
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(red, 0., DESC("red component"))
 DEFINE_INPUT(green, 0., DESC("green component"))
 DEFINE_INPUT(blue, 0., DESC("blue component"))

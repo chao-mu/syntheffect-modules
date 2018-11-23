@@ -1,10 +1,4 @@
 mappings:
-  '8':
-    channel: 7
-    function: 13
-    high: 127
-    low: 0
-    type: fader
   cycle:
     channel: 0
     function: 86

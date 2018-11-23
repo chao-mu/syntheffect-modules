@@ -3,6 +3,10 @@
 #pragma include "../include/noise.glsl"
 #pragma include "../include/transform.glsl"
 
+// @name Time Tunnel
+// @desc Dr Who like graphics generator
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(speed, 2, DESC("the speed of travel through the tunnel"))
 DEFINE_INPUT(travelOffset, 0, DESC("offset of travel time"))
 DEFINE_INPUT(seed, 0, DESC("offset of travel time"))

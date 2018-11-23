@@ -1,11 +1,15 @@
 #pragma include "../include/module.glsl"
 
+// @name Transform
+// @desc Apply simple transformations of pixel placement
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(in1, 0., DESC("input channel 1"))
 DEFINE_INPUT(in2, 0., DESC("input channel 2"))
 DEFINE_INPUT(in3, 0., DESC("input channel 3"))
 
 DEFINE_INPUT(mirrorX, 0, DESC("Mirror x axis"))
-DEFINE_INPUT(mirrorY, 0, DESC("Mirror x axis"))
+DEFINE_INPUT(mirrorY, 0, DESC("Mirror y axis"))
 
 DEFINE_INPUT_GROUP(ins, in1, in2, in3)
 

@@ -1,6 +1,10 @@
 #pragma include "../include/module.glsl"
 #pragma include "../include/ColorSpaces.inc.glsl"
 
+// @name HSV Mapper
+// @desc Input HSV, output RGB and YCbCr
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(hue, 0., DESC("hue component"))
 DEFINE_INPUT(saturation, 0., DESC("saturation component"))
 DEFINE_INPUT(value, 0, DESC("value component"))

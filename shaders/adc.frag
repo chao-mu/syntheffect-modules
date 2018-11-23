@@ -1,5 +1,9 @@
 #pragma include "../include/module.glsl"
 
+// @name Analog to digital conversion
+// @desc Represent input value in binary. Each output channel is 1 or 0
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(value, 0., DESC("input signal to be classified"))
 DEFINE_INPUT(invert, 0., DESC("0 is non inverted, 1 is inverted"))
 DEFINE_INPUT(bias, 0, DESC("Adjustment to input signal"))

@@ -1,5 +1,9 @@
 #pragma include "../include/module.glsl"
 
+// @name Digital to Analog
+// @desc The opposite of the Analog to Digital module
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(in1, 0, DESC("input channel for bit 1"))
 DEFINE_INPUT(in2, 0, DESC("input channel for bit 2"))
 DEFINE_INPUT(in3, 0, DESC("input channel for bit 3"))

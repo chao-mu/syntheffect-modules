@@ -1,5 +1,9 @@
 #pragma include "../include/module.glsl"
 
+// @name Oscilator
+// @desc Generate waves
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(freq, 10, DESC("frequency of wave"))
 DEFINE_INPUT(freqMod, 0, DESC("frequency modulation of wave"))
 DEFINE_INPUT(amplitude, 1, DESC("ampply resulting wave"))

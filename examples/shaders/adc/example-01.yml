@@ -1,21 +1,31 @@
 ##
 # This example connects the brightness of each pixel in the webcam to the module ADC (analog digital converter),
 # which in turn provides 3 outputs that act as bits describing the value numerically.
-# 
+#
 # adc provides the outputs out1, out2, and out3 so it can be used as an "out" module.
 ##
 
+# Define a module called "external".
 external:
+    # Specify that it be of the type "builtin/webcam"
     module: builtin/webcam
 
+# Define a second module called external_decoded
+# This mapper provides coloring information. We are interested in the lumanince
 external_decoded:
+    # Specify that it be of the type "shaders/rgb_mapper"
     module: shaders/rgb_mapper
+    # Provide the outputs of the webcam to this mapper
     inputs:
         red: external.red
         green: external.green
         blue: external.blue
 
+# Define another module using the special name "out"
+# Its output (if the outputs are out1, out2, out3 OR red, green, blue OR value) will be shown on your screen
 out:
+    # If you're curious about the code to this module, you can follow the path specified here (an additional extension added
+    # according to the class of module). In this case it's shaders/adc.frag
     module: shaders/adc
     inputs:
         value: external_decoded.luma

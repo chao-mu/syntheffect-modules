@@ -13,6 +13,10 @@
 // Draw a line segment of length and width.
 #define segment(U, len, width)  S( abs(U.x)-width ) * S( abs(U.y)-len )
 
+// @name Logo
+// @desc The author's tattoo and SynthEffect's logo
+// @author Danimalia Hackpoetica
+
 DEFINE_OUTPUT_1(value, DESC("the logo"))
 
 void main()

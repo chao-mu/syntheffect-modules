@@ -1,6 +1,10 @@
 #pragma include "../include/module.glsl"
 #pragma include "../include/ColorSpaces.inc.glsl"
 
+// @name Luma Blood
+// @desc Simulate the luma signal bleeding into the chroma signals
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(red, 0., DESC("red component"))
 DEFINE_INPUT(green, 0., DESC("green component"))
 DEFINE_INPUT(blue, 0., DESC("blue component"))

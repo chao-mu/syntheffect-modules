@@ -1,5 +1,9 @@
 #pragma include "../include/module.glsl"
 
+// @name Color Encoder
+// @desc Tweak colors
+// @author Danimalia Hackpoetica
+
 DEFINE_INPUT(red, 0., DESC("red component"))
 DEFINE_INPUT(redInvert, 0., DESC("red component, at 0 non-inverted, at 1 inverted"))
 DEFINE_INPUT(redBias, 0., DESC("red component bias"))
