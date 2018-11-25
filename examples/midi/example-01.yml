@@ -1,6 +1,3 @@
-global:
-    module: "builtin/global"
-
 midi:
     module: "midi/icon_icontrols"
 
@@ -49,11 +46,11 @@ out:
         red: "stage3.out1"
         redInvert: "midi.f1"
         redBias: "midi.e1"
-        
+
         green: "stage3.out2"
         greenBias: "midi.e2"
         greenInvert: "midi.f2"
-        
+
         blue: "stage3.out3"
         blueBias: "midi.e3"
         blueInvert: "midi.f3"

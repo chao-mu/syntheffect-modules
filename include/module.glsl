@@ -205,7 +205,7 @@ bool is_true(float v) {
 }
 
 // Multiple the result of this function call to rotate the coordinates by the given angle.
-#define rotate(angle) mat2(cos(angle),-sin(angle), sin(angle),cos(angle));
+#define rotate(angle) mat2(cos(angle),-sin(angle), sin(angle),cos(angle))
 
 DEFINE_INPUT(syncH, 0, DESC("Horizontal sync"))
 DEFINE_INPUT(syncV, 0, DESC("Vertical sync"))

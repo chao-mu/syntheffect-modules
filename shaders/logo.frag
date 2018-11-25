@@ -1,5 +1,9 @@
 #pragma include "../include/module.glsl"
 
+// @name Logo
+// @desc The author's tattoo and SynthEffect's logo
+// @author Danimalia Hackpoetica
+
 // Produce a 1 if the provided value is <= 0, with a small transitional blur
 #define S(v) smoothstep(blur, 0., v)
 
@@ -12,10 +16,6 @@
 
 // Draw a line segment of length and width.
 #define segment(U, len, width)  S( abs(U.x)-width ) * S( abs(U.y)-len )
-
-// @name Logo
-// @desc The author's tattoo and SynthEffect's logo
-// @author Danimalia Hackpoetica
 
 DEFINE_OUTPUT_1(value, DESC("the logo"))
 
@@ -32,6 +32,7 @@ void main()
 
     // Draw on either side of the y axis.
     uv.x = abs(uv.x);
+    uv.y *= -1;
 
     float value = 0.;
     value += crescent(uv - vec2(.37, 0.1),  .18, .4);

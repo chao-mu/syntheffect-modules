@@ -1,3 +1,4 @@
+name: "Microsoft X-Box"
 device: "Microsoft X-Box"
 
 deadzone: 0.12
@@ -11,7 +12,7 @@ stick_siblings:
     1: 0
     3: 4
     4: 3
-    
+
 axes:
     0: "left_stick_x"
     1: "left_stick_y"

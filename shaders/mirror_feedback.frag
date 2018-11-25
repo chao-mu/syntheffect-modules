@@ -8,6 +8,7 @@ DEFINE_INPUT(in1, 0., DESC("input channel 1"))
 DEFINE_INPUT(in2, 0., DESC("input channel 2"))
 DEFINE_INPUT(in3, 0., DESC("input channel 3"))
 
+DEFINE_INPUT(rotate, 0., DESC("how much to rotate each reflection"))
 DEFINE_INPUT(factor, 0.5, DESC("amount to zoom (lower value, more zoom frames)"))
 DEFINE_INPUT(centerX, 0, DESC("center on x coordinate, -1 to 1"))
 DEFINE_INPUT(centerY, 0, DESC("center on y coordinate, -1 to 1"))
@@ -26,6 +27,6 @@ void main() {
             newCoords.y < -1 || newCoords.y > 1) {
         output_rgb(input_rgb());
     } else {
-        output_rgb(last_output_rgb(from_uv_1to1(newCoords)));
+        output_rgb(last_output_rgb(from_uv_1to1(rotate(input_rotate()) * newCoords)));
     }
 }

@@ -1,3 +1,4 @@
+name: "iNNEXT SNES"
 device: "USB Gamepad"
 
 deadzone: 0

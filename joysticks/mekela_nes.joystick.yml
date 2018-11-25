@@ -1,3 +1,4 @@
+name: "Mekela NES"
 device: "usb gamepad"
 
 deadzone: 0
@@ -11,11 +12,11 @@ buttons:
     1: "a"
     8: "select"
     9: "start"
-    
+
 fake_buttons_negative:
     up: "dir_y"
     left: "dir_x"
-    
+
 
 fake_buttons_positive:
     down: "dir_y"
