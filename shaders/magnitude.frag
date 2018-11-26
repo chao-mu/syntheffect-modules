@@ -1,7 +1,7 @@
 #pragma include "../include/module.glsl"
 
 // @name Magnitude
-// @desc The magnitude of either the first x1, x2, x3, or the difference between the magnitudes of x1-3 and y1-3
+// @desc The magnitude of either a vector consisting of x1, x2, x3, or the magnitudes of the difference of x1-3 and y1-3
 // @author Danimalia Hackpoetica
 
 DEFINE_INPUT(x1, 0, DESC("first component of vector"))

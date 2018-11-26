@@ -1,7 +1,7 @@
 #pragma include "../include/module.glsl"
 
 // @name Decay
-// @desc For each channel, mix in previous frame if its value is higher
+// @desc For each channel, mix in previous frame if its value is lower than the last output
 // @author Danimalia Hackpoetica
 
 DEFINE_INPUT(in1, 0., DESC("input channel 1"))

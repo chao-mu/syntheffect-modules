@@ -1,7 +1,7 @@
 #pragma include "../include/module.glsl"
 
-// @name Transform
-// @desc Apply simple transformations of pixel placement
+// @name Reflect
+// @desc Reflect over X or Y axises
 // @author Danimalia Hackpoetica
 
 DEFINE_INPUT(in1, 0., DESC("input channel 1"))
