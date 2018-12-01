@@ -169,6 +169,7 @@ uniform sampler2DRect inputs8;
 uniform sampler2DRect inputs9;
 
 in vec2 textureCoordinate;
+#define textureCoordinates textureCoordinate
 
 uniform vec2 resolution;
 
