@@ -1,3 +1,0 @@
-[submodule "shaders/tobspr/GLSL-Color-Spaces"]
-	path = shaders/github.com/tobspr/GLSL-Color-Spaces
-	url = https://github.com/tobspr/GLSL-Color-Spaces/
