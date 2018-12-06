@@ -31,12 +31,10 @@ void main() {
     }
 
     float key_thresh = input_keyThreshold();
-    if (key > key_thresh) {
-        if (input_keyMixMode() > 0.5) {
-            rgb_left = mix(rgb_left, rgb_right, key - key_thresh);
-        } else {
-            rgb_left = rgb_right;
-        }
+    if (is_true(input_keyMixMode())) {
+        rgb_left = mix(rgb_left, rgb_right, key);
+    } else if (key > key_thresh) {
+        rgb_left = rgb_right;
     }
 
     output_red(rgb_left.r);

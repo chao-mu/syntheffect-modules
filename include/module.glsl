@@ -196,6 +196,10 @@ vec2 from_uv_0to1(vec2 uv) {
     return uv * resolution;
 }
 
+vec2 from_uv_polar(vec2 uv) {
+    return from_uv_1to1(
+            vec2(uv.x * cos(uv.y), uv.x * sin(uv.y)));
+}
 
 float map(float value, float min1, float max1, float min2, float max2) {
     return ((value - min1) / (max1 - min1)) * (max2 - min2) + min2;
