@@ -12,6 +12,18 @@
 float input_nosync_syncV(vec2 coords);
 float input_nosync_syncH(vec2 coords);
 
+#define DEFINE_INPUTS_RGB() \
+    DEFINE_INPUT(red, 0, DESC("Red component")) \
+    DEFINE_INPUT(green, 0, DESC("Green component")) \
+    DEFINE_INPUT(blue, 0, DESC("Blue component")) \
+    DEFINE_INPUT_GROUP(rgb, red, green, blue)
+
+#define DEFINE_INPUTS_RGB_FOR(name) \
+    DEFINE_INPUT(name ## _red, 0, DESC("Red component")) \
+    DEFINE_INPUT(name ## _green, 0, DESC("Green component")) \
+    DEFINE_INPUT(name ## _blue, 0, DESC("Blue component")) \
+    DEFINE_INPUT_GROUP(name, name ## _red, name ## _green, name ## _blue)
+
 #define DEFINE_INPUT(name, def, desc) \
     uniform int name ## TexIdx; \
     uniform int name ## ChannelIdx; \
@@ -63,6 +75,27 @@ float input_nosync_syncH(vec2 coords);
     float input_ ## name() { \
         return input_ ## name(textureCoordinate); \
     } \
+    mat3 input_3x3_ ## name() { \
+        mat3 m; \
+        m[0] = vec3( \
+            input_ ## name(topLeftTextureCoordinate), \
+            input_ ## name(topTextureCoordinate), \
+            input_ ## name(topRightTextureCoordinate) \
+        ); \
+        m[1] = vec3( \
+            input_ ## name(leftTextureCoordinate), \
+            input_ ## name(textureCoordinate), \
+            input_ ## name(rightTextureCoordinate) \
+        ); \
+        m[2] = vec3( \
+            input_ ## name(bottomLeftTextureCoordinate), \
+            input_ ## name(bottomTextureCoordinate), \
+            input_ ## name(bottomRightTextureCoordinate) \
+        ); \
+        \
+        return m; \
+    } \
+    \
     bool passed_ ## name() { \
         return name ## PropertyPassed || name ## TexIdx >= 0; \
     }
@@ -73,15 +106,15 @@ float input_nosync_syncH(vec2 coords);
     } \
     vec3[9] input_3x3_ ## name() { \
         vec3 n[9]; \
-        n[0] = input_ ## name(bottomLeftTextureCoordinate); \
-        n[1] = input_ ## name(bottomTextureCoordinate); \
-        n[2] = input_ ## name(bottomRightTextureCoordinate); \
+        n[0] = input_ ## name(topLeftTextureCoordinate); \
+        n[1] = input_ ## name(topTextureCoordinate); \
+        n[2] = input_ ## name(topRightTextureCoordinate); \
         n[3] = input_ ## name(leftTextureCoordinate); \
         n[4] = input_ ## name(textureCoordinate); \
         n[5] = input_ ## name(rightTextureCoordinate); \
-        n[6] = input_ ## name(topLeftTextureCoordinate); \
-        n[7] = input_ ## name(topTextureCoordinate); \
-        n[8] = input_ ## name(topRightTextureCoordinate); \
+        n[6] = input_ ## name(bottomLeftTextureCoordinate); \
+        n[7] = input_ ## name(bottomTextureCoordinate); \
+        n[8] = input_ ## name(bottomRightTextureCoordinate); \
         return n; \
     } \
     \
@@ -117,7 +150,26 @@ float input_nosync_syncH(vec2 coords);
     } \
     vec3 last_output_ ## name(vec2 coords) { \
         return vec3(last_output_ ## first(coords), last_output_ ## second(coords), last_output_ ## third(coords)); \
+    } \
+    vec3[9] last_output_3x3_ ## name() { \
+        vec3 n[9]; \
+        n[0] = last_output_ ## name(topLeftTextureCoordinate); \
+        n[1] = last_output_ ## name(topTextureCoordinate); \
+        n[2] = last_output_ ## name(topRightTextureCoordinate); \
+        n[3] = last_output_ ## name(leftTextureCoordinate); \
+        n[4] = last_output_ ## name(textureCoordinate); \
+        n[5] = last_output_ ## name(rightTextureCoordinate); \
+        n[6] = last_output_ ## name(bottomLeftTextureCoordinate); \
+        n[7] = last_output_ ## name(bottomTextureCoordinate); \
+        n[8] = last_output_ ## name(bottomRightTextureCoordinate); \
+        return n; \
     }
+
+#define DEFINE_OUTPUTS_RGB_123() \
+    DEFINE_OUTPUT_1(red, DESC("Red component")) \
+    DEFINE_OUTPUT_2(green, DESC("Green component")) \
+    DEFINE_OUTPUT_3(blue, DESC("Blue component")) \
+    DEFINE_OUTPUT_GROUP(rgb, red, green, blue)
 
 #define DEFINE_OUTPUT_1(name, desc) _DEFINE_OUTPUT_FIRST(0, 0, name, desc)
 #define DEFINE_OUTPUT_2(name, desc) _DEFINE_OUTPUT(0, 1, name, desc)
@@ -208,6 +260,75 @@ float map(float value, float min1, float max1, float min2, float max2) {
 bool is_true(float v) {
     return v > 0.5;
 }
+
+/*
+void fill_oob_3x3(vec2 coords, inout vec3 n[9]) {
+    if (coords.x < 0) {
+        // Middle (vertical)
+        n[1] = vec3(0);
+        n[4] = vec3(0);
+        n[7] = vec3(0);
+
+        // Left (vertical)
+        n[0] = vec3(0);
+        n[3] = vec3(0);
+        n[6] = vec3(0);
+    } else if (coords.x > resolution.x) {
+        // Middle (vertical)
+        n[1] = vec3(0);
+        n[4] = vec3(0);
+        n[7] = vec3(0);
+
+        // Righ (vertical)
+        n[2] = vec3(0);
+        n[5] = vec3(0);
+        n[8] = vec3(0);
+    } else if (coords.x == 0) {
+        // Lef (vertical)
+        n[0] = vec3(0);
+        n[3] = vec3(0);
+        n[6] = vec3(0);
+    } else if (coords.x == resolution.x) {
+        // Righ (vertical)
+        n[2] = vec3(0);
+        n[5] = vec3(0);
+        n[8] = vec3(0);
+    }
+
+    if (coords.y < 0) {
+        // Middle (horizontal)
+        n[3] = vec3(0);
+        n[4] = vec3(0);
+        n[5] = vec3(0);
+
+        // Bottom (horizontal)
+        n[6] = vec3(0);
+        n[7] = vec3(0);
+        n[8] = vec3(0);
+    } else if (coords.y > resolution.y) {
+        // Middle (horizontal)
+        n[3] = vec3(0);
+        n[4] = vec3(0);
+        n[5] = vec3(0);
+
+        // Top (horizontal)
+        n[0] = vec3(0);
+        n[1] = vec3(0);
+        n[2] = vec3(0);
+    } else if (coords.y == 0) {
+        // Bottom (horizontal)
+        n[6] = vec3(0);
+        n[7] = vec3(0);
+        n[8] = vec3(0);
+        n[1] = vec3(1, 0, 0);
+    } else if (coords.y == resolution.y) {
+        // Top (horizontal)
+        n[0] = vec3(0);
+        n[1] = vec3(0);
+        n[2] = vec3(0);
+    }
+}
+*/
 
 // Multiple the result of this function call to rotate the coordinates by the given angle.
 #define rotate(angle) mat2(cos(angle),-sin(angle), sin(angle),cos(angle))
