@@ -1,16 +1,15 @@
 #version 330
 
 #define PI 3.14159265359
+#define PI_TWO 6.28318530718
 #define PI_HALF 1.5707963
 #define HALF_PI 1.5707963
 #define SQRT_2 1.41421356
+#define E 2.71828
 
 #define DESC(s) #s
 
 #define NO_DEFAULT 0.0
-
-float input_nosync_syncV(vec2 coords);
-float input_nosync_syncH(vec2 coords);
 
 #define DEFINE_INPUTS_RGB() \
     DEFINE_INPUT(red, 0, DESC("Red component")) \
@@ -33,7 +32,7 @@ float input_nosync_syncH(vec2 coords);
     uniform float name ## _shift; \
     uniform float name ## _invert; \
     \
-    float input_nosync_ ## name(vec2 coord) { \
+    float input_ ## name(vec2 coord) { \
         float v = def; \
         if (name ## PropertyPassed) { \
             v = name ## PropertyValue; \
@@ -67,15 +66,26 @@ float input_nosync_syncH(vec2 coords);
         return v; \
     } \
     \
-    float input_ ## name(vec2 coord) { \
-        coord = vec2(mod(coord.x + time * input_nosync_syncH(coord), resolution.x), mod(coord.y + time * input_nosync_syncV(coord), resolution.y)); \
-        return input_nosync_ ## name(coord); \
+    float input_nosync_ ## name() { \
+        return input_ ## name(textureCoordinates_); \
     } \
-    \
     float input_ ## name() { \
         return input_ ## name(textureCoordinate); \
     } \
-    mat3 input_3x3_ ## name() { \
+    float[9] input_3x3_ ## name() { \
+        float n[9]; \
+        n[0] = input_ ## name(topLeftTextureCoordinate); \
+        n[1] = input_ ## name(topTextureCoordinate); \
+        n[2] = input_ ## name(topRightTextureCoordinate); \
+        n[3] = input_ ## name(leftTextureCoordinate); \
+        n[4] = input_ ## name(textureCoordinate); \
+        n[5] = input_ ## name(rightTextureCoordinate); \
+        n[6] = input_ ## name(bottomLeftTextureCoordinate); \
+        n[7] = input_ ## name(bottomTextureCoordinate); \
+        n[8] = input_ ## name(bottomRightTextureCoordinate); \
+        return n; \
+    } \
+    mat3 input_mat3_ ## name() { \
         mat3 m; \
         m[0] = vec3( \
             input_ ## name(topLeftTextureCoordinate), \
@@ -220,46 +230,13 @@ uniform sampler2DRect inputs7;
 uniform sampler2DRect inputs8;
 uniform sampler2DRect inputs9;
 
-in vec2 textureCoordinate;
-#define textureCoordinates textureCoordinate
+in vec2 textureCoordinates_;
+
+#define textureCoordinate textureCoordinates
+
+#define textureCoordinates get_texture_coordinates()
 
 uniform vec2 resolution;
-
-// translate texture coordinates to -1 to 1.
-vec2 get_uv_1to1() {
-    return (2. * textureCoordinate - resolution.xy) / resolution.y;
-}
-
-vec2 get_uv_0to1() {
-    return textureCoordinate / resolution;
-}
-
-vec2 get_uv_polar() {
-    vec2 uv = get_uv_1to1();
-    return vec2(length(uv), atan(uv.y, uv.x));
-}
-
-// translate coordinates in range -1 to 1 to texture coordinates.
-vec2 from_uv_1to1(vec2 uv) {
-    return ((uv * resolution.y) + resolution.xy) / 2.;
-}
-
-vec2 from_uv_0to1(vec2 uv) {
-    return uv * resolution;
-}
-
-vec2 from_uv_polar(vec2 uv) {
-    return from_uv_1to1(
-            vec2(uv.x * cos(uv.y), uv.x * sin(uv.y)));
-}
-
-float map(float value, float min1, float max1, float min2, float max2) {
-    return ((value - min1) / (max1 - min1)) * (max2 - min2) + min2;
-}
-
-bool is_true(float v) {
-    return v > 0.5;
-}
 
 /*
 void fill_oob_3x3(vec2 coords, inout vec3 n[9]) {
@@ -333,5 +310,51 @@ void fill_oob_3x3(vec2 coords, inout vec3 n[9]) {
 // Multiple the result of this function call to rotate the coordinates by the given angle.
 #define rotate(angle) mat2(cos(angle),-sin(angle), sin(angle),cos(angle))
 
+vec2 get_texture_coordinates();
+bool is_true(float x);
+
 DEFINE_INPUT(syncH, 0, DESC("Horizontal sync"))
 DEFINE_INPUT(syncV, 0, DESC("Vertical sync"))
+
+vec2 get_texture_coordinates() {
+    return vec2(
+        mod(textureCoordinates_.x - time * input_nosync_syncH(), resolution.x),
+        mod(textureCoordinates_.y - time * input_nosync_syncV(), resolution.y)
+    );
+}
+
+// translate texture coordinates to -1 to 1.
+vec2 get_uv_1to1() {
+    return (2. * get_texture_coordinates() - resolution.xy) / resolution.y;
+}
+
+vec2 get_uv_0to1() {
+    return get_texture_coordinates() / min(resolution.x, resolution.y);
+}
+
+vec2 get_uv_polar() {
+    vec2 uv = get_uv_1to1();
+    return vec2(length(uv), atan(uv.y, uv.x));
+}
+
+// translate coordinates in range -1 to 1 to texture coordinates.
+vec2 from_uv_1to1(vec2 uv) {
+    return ((uv * resolution.y) + resolution.xy) / 2.;
+}
+
+vec2 from_uv_0to1(vec2 uv) {
+    return uv * resolution;
+}
+
+vec2 from_uv_polar(vec2 uv) {
+    return from_uv_1to1(
+            vec2(uv.x * cos(uv.y), uv.x * sin(uv.y)));
+}
+
+float map(float value, float min1, float max1, float min2, float max2) {
+    return ((value - min1) / (max1 - min1)) * (max2 - min2) + min2;
+}
+
+bool is_true(float v) {
+    return v > 0.5;
+}

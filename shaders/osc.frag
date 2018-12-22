@@ -25,9 +25,9 @@ void main() {
     if (passed_phase()) {
         phase = input_phase();
     } else if (input_vertical() > 0.5) {
-        phase = (textureCoordinate.y + input_nosync_syncV(textureCoordinate)) / resolution.y;
+        phase = textureCoordinate.y / resolution.y;
     } else {
-        phase = (textureCoordinate.x + input_nosync_syncH(textureCoordinate)) / resolution.x;
+        phase = textureCoordinate.x / resolution.x;
     }
 
     float x = freq * phase + shift + input_freqMod();

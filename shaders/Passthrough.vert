@@ -5,7 +5,7 @@ uniform mat4 modelViewProjectionMatrix;
 in vec4 position;
 in vec2 texcoord;
 
-out vec2 textureCoordinate;
+out vec2 textureCoordinates_;
 
 out vec2 leftTextureCoordinate;
 out vec2 rightTextureCoordinate;
@@ -23,8 +23,8 @@ uniform int scale = 1;
 void main(){
     gl_Position = modelViewProjectionMatrix * position;
 
-    textureCoordinate = texcoord;
-    
+    textureCoordinates_ = texcoord;
+
     leftTextureCoordinate = texcoord.xy + vec2(-scale, 0);
     rightTextureCoordinate = texcoord.xy + vec2(scale, 0);
 
