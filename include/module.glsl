@@ -15,13 +15,40 @@
     DEFINE_INPUT(red, 0, DESC("Red component")) \
     DEFINE_INPUT(green, 0, DESC("Green component")) \
     DEFINE_INPUT(blue, 0, DESC("Blue component")) \
-    DEFINE_INPUT_GROUP(rgb, red, green, blue)
+    DEFINE_INPUT_VEC3(rgb, red, green, blue)
 
-#define DEFINE_INPUTS_RGB_FOR(name) \
+#define DEFINE_INPUTS_RGBA() \
+    DEFINE_INPUT(red, 0, DESC("Red component")) \
+    DEFINE_INPUT(green, 0, DESC("Green component")) \
+    DEFINE_INPUT(blue, 0, DESC("Blue component")) \
+    DEFINE_INPUT(alpha, 0, DESC("Alpha component")) \
+    DEFINE_INPUT_VEC4(rgb, red, green, blue, alpha)
+
+#define DEFINE_INPUTS_RGB_WITH(suffix) \
+    DEFINE_INPUT(red ## suffix, 0, DESC("Red component")) \
+    DEFINE_INPUT(green ## suffix, 0, DESC("Green component")) \
+    DEFINE_INPUT(blue ## suffix, 0, DESC("Blue component")) \
+    DEFINE_INPUT_VEC3(rgb ## suffix, red ## suffix, green ## suffix, blue ## suffix)
+
+#define DEFINE_INPUTS_RGBA_WITH(suffix) \
+    DEFINE_INPUT(red ## suffix, 0, DESC("Red component")) \
+    DEFINE_INPUT(green ## suffix, 0, DESC("Green component")) \
+    DEFINE_INPUT(blue ## suffix, 0, DESC("Blue component")) \
+    DEFINE_INPUT(alpha ## suffix, 0, DESC("Alpha component")) \
+    DEFINE_INPUT_VEC4(rgb ## suffix, red ## suffix, green ## suffix, blue ## suffix, alpha ## suffix)
+
+#define DEFINE_INPUTS_RGB_AS(name) \
     DEFINE_INPUT(name ## _red, 0, DESC("Red component")) \
     DEFINE_INPUT(name ## _green, 0, DESC("Green component")) \
     DEFINE_INPUT(name ## _blue, 0, DESC("Blue component")) \
-    DEFINE_INPUT_GROUP(name, name ## _red, name ## _green, name ## _blue)
+    DEFINE_INPUT_VEC3(name, name ## _red, name ## _green, name ## _blue)
+
+#define DEFINE_INPUTS_RGBA_AS(name) \
+    DEFINE_INPUT(name ## _red, 0, DESC("Red component")) \
+    DEFINE_INPUT(name ## _green, 0, DESC("Green component")) \
+    DEFINE_INPUT(name ## _blue, 0, DESC("Blue component")) \
+    DEFINE_INPUT(name ## _alpha, 0, DESC("Alpha component")) \
+    DEFINE_INPUT_VEC4(name, name ## _red, name ## _green, name ## _blue, name ## _alpha)
 
 #define DEFINE_INPUT(name, def, desc) \
     uniform int name ## TexIdx; \
@@ -110,7 +137,7 @@
         return name ## PropertyPassed || name ## TexIdx >= 0; \
     }
 
-#define DEFINE_INPUT_GROUP(name, first, second, third) \
+#define DEFINE_INPUT_VEC3(name, first, second, third) \
     vec3 input_ ## name(vec2 coords) { \
         return vec3(input_ ## first(coords), input_ ## second(coords), input_ ## third(coords)); \
     } \
@@ -149,7 +176,7 @@
     layout (location = tex_idx) out vec4 output ## tex_idx; \
     _DEFINE_OUTPUT(tex_idx, channel_idx, name, desc)
 
-#define DEFINE_OUTPUT_GROUP(name, first, second, third) \
+#define DEFINE_OUTPUT_VEC3(name, first, second, third) \
     void output_ ## name(vec3 v) { \
         output_ ## first(v.x); \
         output_ ## second(v.y); \
@@ -179,7 +206,7 @@
     DEFINE_OUTPUT_1(red, DESC("Red component")) \
     DEFINE_OUTPUT_2(green, DESC("Green component")) \
     DEFINE_OUTPUT_3(blue, DESC("Blue component")) \
-    DEFINE_OUTPUT_GROUP(rgb, red, green, blue)
+    DEFINE_OUTPUT_VEC3(rgb, red, green, blue)
 
 #define DEFINE_OUTPUT_1(name, desc) _DEFINE_OUTPUT_FIRST(0, 0, name, desc)
 #define DEFINE_OUTPUT_2(name, desc) _DEFINE_OUTPUT(0, 1, name, desc)
@@ -349,10 +376,6 @@ vec2 from_uv_0to1(vec2 uv) {
 vec2 from_uv_polar(vec2 uv) {
     return from_uv_1to1(
             vec2(uv.x * cos(uv.y), uv.x * sin(uv.y)));
-}
-
-float map(float value, float min1, float max1, float min2, float max2) {
-    return ((value - min1) / (max1 - min1)) * (max2 - min2) + min2;
 }
 
 bool is_true(float v) {
