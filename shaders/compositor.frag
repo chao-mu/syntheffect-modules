@@ -4,26 +4,20 @@
 // @desc Mix two sets of 3 channels according to a key channel
 // @author Danimalia Hackpoetica
 
-DEFINE_INPUT(red, 0., DESC("red component"))
-DEFINE_INPUT(green, 0., DESC("green component"))
-DEFINE_INPUT(blue, 0., DESC("blue component"))
+DEFINE_INPUTS_RGB()
 
 DEFINE_INPUT(key, 0., DESC("whether left or right texture is used"))
 DEFINE_INPUT(keyThreshold, 0.5, DESC("the number dictating what 'key' value keys left/right"))
 DEFINE_INPUT(keyNegate, 0., DESC("If above 0.5, negates the keying"))
 DEFINE_INPUT(keyMixMode, 0., DESC("If above 0.5, mixes instead of keys"))
 
-DEFINE_INPUT(red2, 0., DESC("red component"))
-DEFINE_INPUT(green2, 0., DESC("green component"))
-DEFINE_INPUT(blue2, 0., DESC("blue component"))
+DEFINE_INPUTS_RGB_WITH(2)
 
-DEFINE_OUTPUT_1(red, DESC("red component"))
-DEFINE_OUTPUT_2(green, DESC("green component"))
-DEFINE_OUTPUT_3(blue, DESC("blue component"))
+DEFINE_OUTPUTS_RGB_123()
 
 void main() {
-    vec3 rgb_left = vec3(input_red(), input_green(), input_blue());
-    vec3 rgb_right = vec3(input_red2(), input_green2(), input_blue2());
+    vec3 rgb_left = input_rgb();
+    vec3 rgb_right = input_rgb2();
 
     float key = input_key();
     if (input_keyNegate() > 0.5) {

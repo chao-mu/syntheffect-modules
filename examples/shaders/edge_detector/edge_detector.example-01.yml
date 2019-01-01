@@ -1,12 +1,12 @@
 # Make an instance of a webcam module, naming it "exteneral"
 external:
     # Specify the type
-    module: "webcam"
+    module: "builtin/webcam"
 
 # Make an instance of the rgb_mapper module (used to map rgb to HSV and YUV),
 # naming it "mapper"
 edges:
-    module: "edge_detector"
+    module: "shaders/edge_detector"
     # Define this module's inputs
     inputs:
         # Map the input red to the "red" output of our module "external" (could be any input, even green!)
@@ -18,7 +18,7 @@ edges:
 # Any module that defines a red, green, and blue (internally as its first 3 outputs declared)
 # can be used for output
 out:
-    module: "color_encoder"
+    module: "shaders/color_encoder"
     inputs:
         red: "edges.red"
         green: "edges.green"

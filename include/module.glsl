@@ -1,4 +1,4 @@
-#version 330
+#version 410
 
 #define PI 3.14159265359
 #define PI_TWO 6.28318530718
@@ -21,7 +21,7 @@
     DEFINE_INPUT(red, 0, DESC("Red component")) \
     DEFINE_INPUT(green, 0, DESC("Green component")) \
     DEFINE_INPUT(blue, 0, DESC("Blue component")) \
-    DEFINE_INPUT(alpha, 0, DESC("Alpha component")) \
+    DEFINE_INPUT(alpha, 1, DESC("Alpha component")) \
     DEFINE_INPUT_VEC4(rgb, red, green, blue, alpha)
 
 #define DEFINE_INPUTS_RGB_WITH(suffix) \
@@ -34,7 +34,7 @@
     DEFINE_INPUT(red ## suffix, 0, DESC("Red component")) \
     DEFINE_INPUT(green ## suffix, 0, DESC("Green component")) \
     DEFINE_INPUT(blue ## suffix, 0, DESC("Blue component")) \
-    DEFINE_INPUT(alpha ## suffix, 0, DESC("Alpha component")) \
+    DEFINE_INPUT(alpha ## suffix, 1, DESC("Alpha component")) \
     DEFINE_INPUT_VEC4(rgb ## suffix, red ## suffix, green ## suffix, blue ## suffix, alpha ## suffix)
 
 #define DEFINE_INPUTS_RGB_AS(name) \
@@ -47,7 +47,7 @@
     DEFINE_INPUT(name ## _red, 0, DESC("Red component")) \
     DEFINE_INPUT(name ## _green, 0, DESC("Green component")) \
     DEFINE_INPUT(name ## _blue, 0, DESC("Blue component")) \
-    DEFINE_INPUT(name ## _alpha, 0, DESC("Alpha component")) \
+    DEFINE_INPUT(name ## _alpha, 1, DESC("Alpha component")) \
     DEFINE_INPUT_VEC4(name, name ## _red, name ## _green, name ## _blue, name ## _alpha)
 
 #define DEFINE_INPUT(name, def, desc) \
@@ -59,7 +59,7 @@
     uniform float name ## _shift; \
     uniform float name ## _invert; \
     \
-    float input_ ## name(vec2 coord) { \
+    float input_ ## name(in vec2 coord) { \
         float v = def; \
         if (name ## PropertyPassed) { \
             v = name ## PropertyValue; \
@@ -92,13 +92,10 @@
         \
         return v; \
     } \
-    \
-    float input_nosync_ ## name() { \
-        return input_ ## name(textureCoordinates_); \
-    } \
     float input_ ## name() { \
         return input_ ## name(textureCoordinate); \
     } \
+    \
     float[9] input_3x3_ ## name() { \
         float n[9]; \
         n[0] = input_ ## name(topLeftTextureCoordinate); \
@@ -138,7 +135,7 @@
     }
 
 #define DEFINE_INPUT_VEC3(name, first, second, third) \
-    vec3 input_ ## name(vec2 coords) { \
+    vec3 input_ ## name(in vec2 coords) { \
         return vec3(input_ ## first(coords), input_ ## second(coords), input_ ## third(coords)); \
     } \
     vec3[9] input_3x3_ ## name() { \
@@ -157,14 +154,16 @@
     \
     vec3 input_ ## name() { \
         return input_ ## name(textureCoordinate); \
-    } \
+    }
+
+#define _OUTPUT_TEX(idx) output ## idx
 
 #define _DEFINE_OUTPUT(tex_idx, channel_idx, name, desc) \
-    void output_ ## name(float x) { \
-        output ## tex_idx ## [channel_idx] = x; \
-        output ## tex_idx ## [3] = 1.0; \
+    void output_ ## name(in float x) { \
+        _OUTPUT_TEX(tex_idx)[channel_idx] = x; \
+        _OUTPUT_TEX(tex_idx)[3] = 1.0; \
     } \
-    float last_output_ ## name(vec2 coords) { \
+    float last_output_ ## name(in vec2 coords) { \
         return texture(lastOutput ## tex_idx, coords)[channel_idx]; \
     } \
     float last_output_ ## name() { \
@@ -177,7 +176,7 @@
     _DEFINE_OUTPUT(tex_idx, channel_idx, name, desc)
 
 #define DEFINE_OUTPUT_VEC3(name, first, second, third) \
-    void output_ ## name(vec3 v) { \
+    void output_ ## name(in vec3 v) { \
         output_ ## first(v.x); \
         output_ ## second(v.y); \
         output_ ## third(v.z); \
@@ -185,7 +184,7 @@
     vec3 last_output_ ## name() { \
         return vec3(last_output_ ## first(), last_output_ ## second(), last_output_ ## third()); \
     } \
-    vec3 last_output_ ## name(vec2 coords) { \
+    vec3 last_output_ ## name(in vec2 coords) { \
         return vec3(last_output_ ## first(coords), last_output_ ## second(coords), last_output_ ## third(coords)); \
     } \
     vec3[9] last_output_3x3_ ## name() { \
@@ -257,11 +256,9 @@ uniform sampler2DRect inputs7;
 uniform sampler2DRect inputs8;
 uniform sampler2DRect inputs9;
 
-in vec2 textureCoordinates_;
+in vec2 textureCoordinates;
 
 #define textureCoordinate textureCoordinates
-
-#define textureCoordinates get_texture_coordinates()
 
 uniform vec2 resolution;
 
@@ -334,29 +331,15 @@ void fill_oob_3x3(vec2 coords, inout vec3 n[9]) {
 }
 */
 
-// Multiple the result of this function call to rotate the coordinates by the given angle.
-#define rotate(angle) mat2(cos(angle),-sin(angle), sin(angle),cos(angle))
-
-vec2 get_texture_coordinates();
-bool is_true(float x);
-
-DEFINE_INPUT(syncH, 0, DESC("Horizontal sync"))
-DEFINE_INPUT(syncV, 0, DESC("Vertical sync"))
-
-vec2 get_texture_coordinates() {
-    return vec2(
-        mod(textureCoordinates_.x - time * input_nosync_syncH(), resolution.x),
-        mod(textureCoordinates_.y - time * input_nosync_syncV(), resolution.y)
-    );
-}
+bool is_true(in float x);
 
 // translate texture coordinates to -1 to 1.
 vec2 get_uv_1to1() {
-    return (2. * get_texture_coordinates() - resolution.xy) / resolution.y;
+    return (2. * textureCoordinates - resolution.xy) / resolution.y;
 }
 
 vec2 get_uv_0to1() {
-    return get_texture_coordinates() / min(resolution.x, resolution.y);
+    return textureCoordinates / min(resolution.x, resolution.y);
 }
 
 vec2 get_uv_polar() {
@@ -365,19 +348,19 @@ vec2 get_uv_polar() {
 }
 
 // translate coordinates in range -1 to 1 to texture coordinates.
-vec2 from_uv_1to1(vec2 uv) {
+vec2 from_uv_1to1(in vec2 uv) {
     return ((uv * resolution.y) + resolution.xy) / 2.;
 }
 
-vec2 from_uv_0to1(vec2 uv) {
+vec2 from_uv_0to1(in vec2 uv) {
     return uv * resolution;
 }
 
-vec2 from_uv_polar(vec2 uv) {
+vec2 from_uv_polar(in vec2 uv) {
     return from_uv_1to1(
             vec2(uv.x * cos(uv.y), uv.x * sin(uv.y)));
 }
 
-bool is_true(float v) {
+bool is_true(in float v) {
     return v > 0.5;
 }

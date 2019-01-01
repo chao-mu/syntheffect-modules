@@ -1,4 +1,5 @@
 #pragma include "../include/module.glsl"
+#pragma include "../include/math.glsl"
 
 // @name Oscilator
 // @desc Generate waves
